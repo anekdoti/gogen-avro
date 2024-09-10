@@ -6,7 +6,7 @@ import (
 
 var (
 	// Enable this to get debug logs for the compilation process
-	LoggingEnabled = false
+	LoggingEnabled = true
 )
 
 func log(f string, v ...interface{}) {
