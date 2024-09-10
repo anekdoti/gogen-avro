@@ -218,7 +218,7 @@ func (p *irMethod) compileRef(writer, reader *schema.Reference) error {
 
 func (p *irMethod) compileMap(writer, reader *schema.MapField) error {
 	log("compileMap()\n writer:\n %v\n---\nreader: %v\n---\n", writer, reader)
-	return p.inBlock(reader == nil, func(p *irMethod) error {
+	return p.inBlock(reader != nil, func(p *irMethod) error {
 		p.addLiteral(vm.Read, vm.String)
 		var readerType schema.AvroType
 		if reader != nil {
@@ -238,7 +238,7 @@ func (p *irMethod) compileMap(writer, reader *schema.MapField) error {
 
 func (p *irMethod) compileArray(writer, reader *schema.ArrayField) error {
 	log("compileArray()\n writer:\n %v\n---\nreader: %v\n---\n", writer, reader)
-	return p.inBlock(reader == nil, func(p *irMethod) error {
+	return p.inBlock(reader != nil, func(p *irMethod) error {
 		var readerType schema.AvroType
 		if reader != nil {
 			p.addLiteral(vm.AppendArray, vm.Unused)
