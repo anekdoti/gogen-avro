@@ -2,12 +2,11 @@ package avro
 
 import (
 	"bytes"
-	"encoding/hex"
-	"fmt"
 	"github.com/actgardner/gogen-avro/v10/compiler"
 	"github.com/actgardner/gogen-avro/v10/test/array-removed/reader"
 	"github.com/actgardner/gogen-avro/v10/test/array-removed/writer"
 	"github.com/actgardner/gogen-avro/v10/vm"
+	"github.com/stretchr/testify/assert"
 	"os"
 	"testing"
 )
@@ -29,7 +28,7 @@ func TestReaderWriter(t *testing.T) {
 		panic(err)
 	}
 
-	writtenRecord := writer.Foo{
+	sourceRecord := writer.Foo{
 		F0: []writer.Bar{
 			{16},
 			{32},
@@ -39,13 +38,10 @@ func TestReaderWriter(t *testing.T) {
 		F2: []string{"a", "b"},
 	}
 
-	b := make([]byte, 0)
-	output := bytes.NewBuffer(b)
-	if err := writtenRecord.Serialize(output); err != nil {
+	output := bytes.NewBuffer(make([]byte, 0))
+	if err := sourceRecord.Serialize(output); err != nil {
 		panic(err)
 	}
-
-	fmt.Println(hex.EncodeToString(output.Bytes()))
 
 	input := bytes.NewReader(output.Bytes())
 
@@ -55,11 +51,9 @@ func TestReaderWriter(t *testing.T) {
 		panic(err)
 	}
 
-	byteSequence, err := readRecord.MarshalJSON()
-	if err != nil {
-		panic(err)
-	}
-
-	fmt.Println(string(byteSequence))
-
+	assert.Equal(t,
+		reader.Foo{
+			F2: []string{"a", "b"},
+		},
+		readRecord)
 }
