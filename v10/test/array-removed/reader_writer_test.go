@@ -24,7 +24,7 @@ func TestReaderWriter(t *testing.T) {
 		panic(err)
 	}
 
-	prog, err := compiler.CompileSchemaBytes([]byte(writerSchema), []byte(readerSchema))
+	prog, err := compiler.CompileSchemaBytes(writerSchema, readerSchema)
 	if err != nil {
 		panic(err)
 	}
@@ -55,11 +55,11 @@ func TestReaderWriter(t *testing.T) {
 		panic(err)
 	}
 
-	bytes, err := readRecord.MarshalJSON()
+	byteSequence, err := readRecord.MarshalJSON()
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Println(string(bytes))
+	fmt.Println(string(byteSequence))
 
 }
