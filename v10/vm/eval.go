@@ -39,7 +39,6 @@ func evalInner(r io.Reader, program *Program, target types.Field, pc *int, buf [
 	frame := stackFrame{}
 	for ; *pc < len(program.Instructions); *pc++ {
 		inst := program.Instructions[*pc]
-		//fmt.Printf("%v\t %v\t %v\n", *pc, inst, frame)
 		switch inst.Op {
 		case Read:
 			switch inst.Operand {
